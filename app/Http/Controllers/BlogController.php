@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\TempImage;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class BlogController extends Controller
@@ -19,10 +20,6 @@ class BlogController extends Controller
     }
     // this method will return a store a blog
     public function store(Request $request){
-        // Validator::make($request->all(), [
-        //     'title' => 'required|min:10',
-        //     'author' => 'required|min:10'
-        // ]);
         $validator = Validator::make($request->all(), [
             'title' => 'required|min:10',
             'author' => 'required|min:10'
@@ -43,6 +40,23 @@ class BlogController extends Controller
         $blog->shortDesc =$request->shortDesc;
         $blog->save();
         // belum mengatur image
+
+        // save image here
+        $tempImage = TempImage::find($request->image_id); //diambil dari frontend
+        if($tempImage != null){
+            // 1736318966.png
+            $imageExtArray = explode('.',$tempImage->name);
+            $ext = last($imageExtArray);
+            $imageName = time().'-'.$blog->id.'.'.$ext;
+
+            $blog->image = $imageName;
+            $blog->save();  
+
+            $sourcePath = public_path('uploads/temp/'.$tempImage->name);
+            $destPath = public_path('uploads/blogs/'.$imageName);
+
+            File::copy($sourcePath,$destPath);
+        }
 
         return response()->json([
             'status' => true,
