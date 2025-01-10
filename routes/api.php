@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('blogs', [BlogController::class,'index']);
 Route::post('blogs', [BlogController::class,'store']);
 // setelah itu atur bagian app postman 
 

@@ -12,7 +12,12 @@ class BlogController extends Controller
 {
     //this method will return all blogs
     public function index(){
+        $blogs = Blog::orderBy('created_at','DESC')->get();
 
+        return response()->json([
+            'status' => true,
+            'data' =>$blogs
+        ]);
     }
     // this method will return a single blog
     public function show(){
