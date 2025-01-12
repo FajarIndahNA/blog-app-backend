@@ -32,6 +32,9 @@ class BlogController extends Controller
                 ]
             );
         }
+
+        // menambahkan waktu on ...
+        $blog['date'] = \Carbon\Carbon::parse($blog->created_at)->format('d M, Y');
         return response()->json(
             [
                 'status' => true,
