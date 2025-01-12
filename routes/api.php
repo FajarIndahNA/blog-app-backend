@@ -22,6 +22,9 @@ Route::post('blogs', [BlogController::class,'store']);
 // mengatur image
 Route::post('save-temp-image', [TempImageController::class,'store']);
 
+// mengatur route detail blog
+Route::get('blogs/{id}', [BlogController::class,'show']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

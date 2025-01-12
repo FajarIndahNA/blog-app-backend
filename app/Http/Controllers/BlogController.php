@@ -20,8 +20,24 @@ class BlogController extends Controller
         ]);
     }
     // this method will return a single blog
-    public function show(){
-        
+    // setelah membuat img kita terupload di frontend lalu kita membuat back end detail blog
+    public function show($id){
+        $blog = Blog::find($id);
+
+        if ($blog == null){
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'Blog not found',
+                ]
+            );
+        }
+        return response()->json(
+            [
+                'status' => true,
+                'data' => $blog,
+            ]
+        );
     }
     // this method will return a store a blog
     public function store(Request $request){
